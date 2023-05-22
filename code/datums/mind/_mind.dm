@@ -99,8 +99,12 @@
 
 	///Assoc list of addiction values, key is the type of withdrawal (as singleton type), and the value is the amount of addiction points (as number)
 	var/list/addiction_points
-	///Assoc list of key active addictions and value amount of cycles that it has been active.
+	///Assoc list of key active addictions and value amount of cycles that it has been active in this stage.
 	var/list/active_addictions
+	///Assoc list of key active addictions and next stage threshold deviation. 
+	var/list/active_addictions_deviation
+	///Assoc list of key active addictions and their stage. 
+	var/list/active_addictions_stage
 	///List of objective-specific equipment that couldn't properly be given to the mind
 	var/list/failed_special_equipment
 	/// A list to keep track of which books a person has read (to prevent people from reading the same book again and again for positive mood events)
