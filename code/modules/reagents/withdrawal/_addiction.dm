@@ -49,7 +49,7 @@
 
 /// Resets the deviation and current cycle.
 /datum/addiction/proc/reset_deviation_and_cycle(datum/mind/victim_mind)
-	LAZYSET(victim_mind.mind.active_addictions, type, 1) //Keeps withdrawal at first cycle.
+	LAZYSET(victim_mind.active_addictions, type, 1) //Keeps withdrawal at first cycle.
 	var/withdrawal_stage = LAZYACCESS(victim_mind.active_addictions_stage, type)
 	switch(withdrawal_stage)
 		if(0)
