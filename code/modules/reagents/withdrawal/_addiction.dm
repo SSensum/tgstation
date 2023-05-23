@@ -81,7 +81,6 @@
 
 /datum/addiction/proc/process_addiction(mob/living/carbon/affected_carbon, seconds_per_tick, times_fired)
 	// One cycle is 2 seconds
-	
 	var/current_addiction_cycle = LAZYACCESS(affected_carbon.mind.active_addictions, type) //If this is null, we're not addicted
 	var/current_addiction_deviation = LAZYACCESS(affected_carbon.mind.active_addictions_deviation, type)
 	var/on_drug_of_this_addiction = FALSE
