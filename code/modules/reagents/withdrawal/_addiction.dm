@@ -42,22 +42,22 @@
 
 ///Called when you become addicted
 /datum/addiction/proc/become_addicted(datum/mind/victim_mind)
-	LAZYSET(affected_carbon.mind.active_addictions_stage, type, 0)
+	LAZYSET(victim_mind.active_addictions_stage, type, 0)
 	reset_deviation_and_cycle(victim_mind)
 	SEND_SIGNAL(victim_mind.current, COMSIG_CARBON_GAIN_ADDICTION, victim_mind)
 	victim_mind.current.log_message("has become addicted to [name].", LOG_GAME)
 
 /// Resets the deviation and current cycle.
 /datum/addiction/proc/reset_deviation_and_cycle(datum/mind/victim_mind)
-	LAZYSET(affected_carbon.mind.active_addictions, type, 1) //Keeps withdrawal at first cycle.
-	var/withdrawal_stage = LAZYACCESS(affected_carbon.mind.active_addictions_stage, type)
+	LAZYSET(victim_mind.mind.active_addictions, type, 1) //Keeps withdrawal at first cycle.
+	var/withdrawal_stage = LAZYACCESS(victim_mind.active_addictions_stage, type)
 	switch(withdrawal_stage)
 		if(0)
-			LAZYSET(affected_carbon.mind.active_addictions_deviation, type, rand(0, withdrawal_stage1_deviation_range))
+			LAZYSET(victim_mind.active_addictions_deviation, type, rand(0, withdrawal_stage1_deviation_range))
 		if(1)
-			LAZYSET(affected_carbon.mind.active_addictions_deviation, type, rand(0, withdrawal_stage2_deviation_range))
+			LAZYSET(victim_mind.active_addictions_deviation, type, rand(0, withdrawal_stage2_deviation_range))
 		if(2)
-			LAZYSET(affected_carbon.mind.active_addictions_deviation, type, rand(0, withdrawal_stage3_deviation_range))
+			LAZYSET(victim_mind.active_addictions_deviation, type, rand(0, withdrawal_stage3_deviation_range))
 
 
 ///Called when you lose addiction poitns somehow. Takes a mind as argument and sees if you lost the addiction
@@ -118,7 +118,7 @@
 			withdrawal_stage_2_process(affected_carbon, seconds_per_tick)
 			if(current_addiction_cycle > (withdrawal_stage3_delay + current_addiction_deviation))
 				LAZYSET(affected_carbon.mind.active_addictions_stage, type, withdrawal_stage + 1)
-				reset_deviation_and_cycle(affected_carbon)
+				reset_deviation_and_cycle(affected_carbon.mind)
 				withdrawal_enters_stage_3(affected_carbon)
 		if(3)
 			withdrawal_stage_3_process(affected_carbon, seconds_per_tick)
@@ -139,7 +139,7 @@
 
 /datum/addiction/proc/end_withdrawal(mob/living/carbon/affected_carbon)
 	LAZYSET(affected_carbon.mind.active_addictions_stage, type, 0)
-	reset_deviation_and_cycle(affected_carbon)
+	reset_deviation_and_cycle(affected_carbon.mind)
 	affected_carbon.clear_mood_event("[type]_addiction")
 
 /// Called when addiction is in stage 1 every process
